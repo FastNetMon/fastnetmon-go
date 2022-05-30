@@ -40,6 +40,24 @@ type CallbackDetails struct {
 	PacketDumpDetailed []CallbackPacketDumpEntry `json:"packet_dump_detailed"`
 }
 
+// Keeps fields specific for threshold
+type ThresholdStructure struct {
+	Flows   bool `json:"flows"`
+	Mbits   bool `json:"mbits"`
+	Packets bool `json:"packets"`
+}
+
+// FlexibleThresholdsDetails keeps details about which flexible thresholds triggered attack
+// In some cases incoming and outgoing both can be true when attack was triggered in both directions in same time
+type FlexibleThresholdsDetails struct {
+	// Set when attack was triggered in incoming direction
+	Incoming bool `json:"incoming"`
+	// Set when attack was triggered in outgoing direction
+	Outgoing        bool               `json:"outgoing"`
+	IncomingDetails ThresholdStructure `json:"incoming_details"`
+	OutgoingDetails ThresholdStructure `json:"outgoing_details"`
+}
+
 // Key information about attack
 type CallbackAttackDetails struct {
 	// Example: 041eb504-2b33-4ff7-a6b7-8235408d5062
@@ -63,13 +81,19 @@ type CallbackAttackDetails struct {
 	// IPv4 or IPv6
 	ProtocolVersion string `json:"protocol_version"`
 
-	InitialAttackPower uint64 `json:"initial_attack_power"`
-	PeakAttackPower    uint64 `json:"peak_attack_power"`
+	// Set to true when attack was triggered by flexible threshold
+	AttackDetectionTriggeredByFlexibleThreshold bool `json:"attack_detection_triggered_by_flexible_threshold"`
+
+	// List of flexible thresholds which triggered attack
+	AttackDetectionFlexibleThresholds []string `json:"attack_detection_flexible_thresholds"`
+
+	// Detailed information about thresholds which triggered attack
+	Attack_DetectionFlexibleThresholdsDetailed map[string]FlexibleThresholdsDetails `json:"attack_detection_flexible_thresholds_detailed"`
 
 	AttackDetectionThreshold          string `json:"attack_detection_threshold"`
 	AttackDetectionThresholdDirection string `json:"attack_detection_threshold_direction"`
 
-	// incoming, outgoing or unknown
+	// Incoming, outgoing or unknown. Deprecated field, please use AttackDetectionThresholdDirection instead
 	AttackDirection string `json:"attack_direction"`
 
 	// tcp, udp, icmp, unknown
@@ -85,13 +109,6 @@ type CallbackAttackDetails struct {
 
 	TotalIncomingFlows uint64 `json:"total_incoming_flows"`
 	TotalOutgoingFlows uint64 `json:"total_outgoing_flows"`
-
-	AverageIncomingTraffic uint64 `json:"average_incoming_traffic"`
-	AverageOutgoingTraffic uint64 `json:"average_outgoing_traffic"`
-	AverageIncomingPps     uint64 `json:"average_incoming_pps"`
-	AverageOutgoingPps     uint64 `json:"average_outgoing_pps"`
-	AverageIncomingFlows   uint64 `json:"average_incoming_flows"`
-	AverageOutgoingFlows   uint64 `json:"average_outgoing_flows"`
 
 	IncomingIPFragmentedTraffic uint64 `json:"incoming_ip_fragmented_traffic"`
 	OutgoingIPFragmentedTraffic uint64 `json:"outgoing_ip_fragmented_traffic"`
