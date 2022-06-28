@@ -121,7 +121,7 @@ type CallbackAttackDetails struct {
 	OutgoingTCPPps     uint64 `json:"outgoing_tcp_pps"`
 
 	IncomingSYNTCPTraffic uint64 `json:"incoming_syn_tcp_traffic"`
-	OutgoingSYNTCPTrafic  uint64 `json:"outgoing_syn_tcp_traffic"`
+	OutgoingSYNTCPTraffic uint64 `json:"outgoing_syn_tcp_traffic"`
 	IncomingSYNTCPPps     uint64 `json:"incoming_syn_tcp_pps"`
 	OutgoingSYNTCPPps     uint64 `json:"outgoing_syn_tcp_pps"`
 
