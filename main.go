@@ -103,9 +103,9 @@ type CallbackAttackDetails struct {
 	AttackDetectionSource string `json:"attack_detection_source"`
 
 	TotalIncomingTraffic uint64 `json:"total_incoming_traffic"`
-	TotalOugoingTraffic  uint64 `json:"total_outgoing_traffic"`
+	TotalOutgoingTraffic uint64 `json:"total_outgoing_traffic"`
 	TotalIncomingPps     uint64 `json:"total_incoming_pps"`
-	TOtalOutgoingPps     uint64 `json:"total_outgoing_pps"`
+	TotalOutgoingPps     uint64 `json:"total_outgoing_pps"`
 
 	TotalIncomingFlows uint64 `json:"total_incoming_flows"`
 	TotalOutgoingFlows uint64 `json:"total_outgoing_flows"`
