@@ -131,7 +131,7 @@ type CallbackAttackDetails struct {
 	OutgoingUDPPps     uint64 `json:"outgoing_udp_pps"`
 
 	IncomingICMPTraffic uint64 `json:"incoming_icmp_traffic"`
-	OutgoingUCMPTraffic uint64 `json:"outgoing_icmp_traffic"`
+	OutgoingICMPTraffic uint64 `json:"outgoing_icmp_traffic"`
 	IncomingICMPPps     uint64 `json:"incoming_icmp_pps"`
 	OutgoingICMPPps     uint64 `json:"outgoing_icmp_pps"`
 }
