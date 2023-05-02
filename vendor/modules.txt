@@ -4,6 +4,6 @@ github.com/google/go-querystring/query
 # github.com/levigross/grequests v0.0.0-20190908174114-253788527a1a
 ## explicit
 github.com/levigross/grequests
-# golang.org/x/net v0.0.0-20181011144130-49bb7cea24b1
-## explicit
+# golang.org/x/net v0.7.0
+## explicit; go 1.17
 golang.org/x/net/publicsuffix
