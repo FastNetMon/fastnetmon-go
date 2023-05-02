@@ -268,7 +268,7 @@ func (client *FastNetMonClient) SetBoolOptionHostGroup(hostgroup_name string, op
 		if resp.StatusCode == 401 {
 			return false, errors.New("Auth denied")
 		} else {
-			return false, fmt.Errorf("Did not return OK: %w", resp.StatusCode)
+			return false, fmt.Errorf("Did not return OK: %d", resp.StatusCode)
 		}
 	}
 
@@ -297,7 +297,7 @@ func (client *FastNetMonClient) SetStringListOptionHostGroup(hostgroup_name stri
 		if resp.StatusCode == 401 {
 			return false, errors.New("Auth denied")
 		} else {
-			return false, fmt.Errorf("Did not return OK: %w", resp.StatusCode)
+			return false, fmt.Errorf("Did not return OK: %d", resp.StatusCode)
 		}
 	}
 
@@ -323,7 +323,7 @@ func (client *FastNetMonClient) SetUnsignedIntegerOptionHostGroup(hostgroup_name
 		if resp.StatusCode == 401 {
 			return false, errors.New("Auth denied")
 		} else {
-			return false, fmt.Errorf("Did not return OK: %w", resp.StatusCode)
+			return false, fmt.Errorf("Did not return OK: %d", resp.StatusCode)
 		}
 	}
 
@@ -349,7 +349,7 @@ func (client *FastNetMonClient) CreateHostGroup(name string) (bool, error) {
 		if resp.StatusCode == 401 {
 			return false, errors.New("Auth denied")
 		} else {
-			return false, fmt.Errorf("Did not return OK: %w", resp.StatusCode)
+			return false, fmt.Errorf("Did not return OK: %d", resp.StatusCode)
 		}
 	}
 
@@ -375,7 +375,7 @@ func (client *FastNetMonClient) RemoveHostGroup(name string) (bool, error) {
 		if resp.StatusCode == 401 {
 			return false, errors.New("Auth denied")
 		} else {
-			return false, fmt.Errorf("Did not return OK: %w", resp.StatusCode)
+			return false, fmt.Errorf("Did not return OK: %d", resp.StatusCode)
 		}
 	}
 
@@ -401,7 +401,7 @@ func (client *FastNetMonClient) BlackholeRemote(ip_address string) (bool, error)
 		if resp.StatusCode == 401 {
 			return false, errors.New("Auth denied")
 		} else {
-			return false, fmt.Errorf("Did not return OK: %w", resp.StatusCode)
+			return false, fmt.Errorf("Did not return OK: %d", resp.StatusCode)
 		}
 	}
 
@@ -427,7 +427,7 @@ func (client *FastNetMonClient) GetRemoteBlackhole() ([]BlackholeAnnounces, erro
 		if resp.StatusCode == 401 {
 			return nil, errors.New("Auth denied")
 		} else {
-			return nil, fmt.Errorf("Did not return OK: %w", resp.StatusCode)
+			return nil, fmt.Errorf("Did not return OK: %d", resp.StatusCode)
 		}
 	}
 
@@ -453,7 +453,7 @@ func (client *FastNetMonClient) RemoveRemoteBlackhole(mitigation_uuid string) (b
 		if resp.StatusCode == 401 {
 			return false, errors.New("Auth denied")
 		} else {
-			return false, fmt.Errorf("Did not return OK: %w", resp.StatusCode)
+			return false, fmt.Errorf("Did not return OK: %d", resp.StatusCode)
 		}
 	}
 
@@ -479,7 +479,7 @@ func (client *FastNetMonClient) GetNetworks() ([]string, error) {
 		if resp.StatusCode == 401 {
 			return nil, errors.New("Auth denied")
 		} else {
-			return nil, fmt.Errorf("Did not return OK: %w", resp.StatusCode)
+			return nil, fmt.Errorf("Did not return OK: %d", resp.StatusCode)
 		}
 	}
 
@@ -505,7 +505,7 @@ func (client *FastNetMonClient) GetAllHostgroups() ([]Ban_settings_t, error) {
 		if resp.StatusCode == 401 {
 			return nil, errors.New("Auth denied")
 		} else {
-			return nil, fmt.Errorf("Did not return OK: %w", resp.StatusCode)
+			return nil, fmt.Errorf("Did not return OK: %d", resp.StatusCode)
 		}
 	}
 
