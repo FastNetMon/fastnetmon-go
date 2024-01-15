@@ -15,7 +15,7 @@ type CallbackDetails struct {
 	// For IPv6 "2a03:5131....:1"
 	IP string `json:"ip"`
 
-	// ban, unban, partial_block
+	// ban, unban, attack_status, partial_block, partial_unblock
 	Action string `json:"action"`
 
 	AttackDetails CallbackAttackDetails `json:"attack_details"`
