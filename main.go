@@ -161,6 +161,9 @@ type CallbackPacketDumpEntry struct {
 
 	// tcp, udp, icmp and unknown
 	Protocol string `json"protocol"`
+
+	// Address of device which sent this flow / packet
+	AgentAddress string `json:"agent_address"`
 }
 
 type ResponseArrayJson struct {
