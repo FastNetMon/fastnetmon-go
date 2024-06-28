@@ -38,6 +38,54 @@ type CallbackDetails struct {
 
 	// Detailed packet dump in parsed format
 	PacketDumpDetailed []CallbackPacketDumpEntry `json:"packet_dump_detailed"`
+
+	// BGP Flow Spec rules
+	FlowSpecRules []FlowSpecRule `json:"flow_spec_rules"`
+}
+type FlowSpecAction struct {
+	// Rate
+	Rate uint `json:"rate"`
+}
+
+type FlowSpecRule struct {
+	// IPv4 network in CIDR format, optional field
+	SourcePrefix string `json:"source_prefix,omitempty"`
+
+	// IPv4 network in CIDR format, optional field
+	DestinationPrefix string `json:"destination_prefix,omitempty"`
+
+	// List of destination ports (from 0 to 65535), optional field
+	DestinationPorts []uint `json:"destination_ports,omitempty"`
+
+	// List of source ports (from 0 to 65535), optional field
+	SourcePorts []uint `json:"source_ports,omitempty"`
+
+	// List of packet sizes (from 0 to 1500), optional field
+	PacketLengths []uint `json:"packet_lengths,omitempty"`
+
+	// List of protocols (allowed options udp, tcp, icmp, gre), optional field
+	Protocols []string `json:"protocols,omitempty"`
+
+	// List of fragmentation flags (allowed values: dont-fragment, is-fragment, first-fragment, last-fragment, not-a-fragment), optional field
+	FragmentationFlags []string `json:"fragmentation_flags,omitempty"`
+
+	// List of TCP flags, allowed only when TCP used in protocols list. Allowed values: syn, ack, fin, urgent, push, rst. Flags also could be mixed with "|" sign (tcp|push). Optional field
+	TcpFlags []string `json:"tcp_flags,omitempty"`
+
+	// List of TTLs for traffic matching, non RFC compliant addition
+	Ttls []uint `json:"ttls,omitempty"`
+
+	// List of vlans for traffic matching, non RFC compliant addition
+	Vlans []uint `json:"vlans,omitempty"`
+
+	// Action type, allowed values: accept, discard, rate-limit, redirect, mark
+	ActionType string `json:"action_type,omitempty"`
+
+	// Optional details specific for action
+	Action FlowSpecAction `json:"action,omitempty"`
+
+	// List of IPs which can be used when action is set to "accept" to forward traffic to them
+	IPv4NextHops []string `json:"ipv4_nexthops,omitempty"`
 }
 
 // Keeps fields specific for threshold
