@@ -231,6 +231,17 @@ type ResponseJson struct {
 	Value     string `json:"value"`
 }
 
+// Wrapper structure to carry Flow Spec announce and it's UUID
+type ResponseFlowSpecAnnounce struct {
+	UUID     string       `json:"uuid"`
+	Announce FlowSpecRule `json:"announce"`
+}
+
+type ResponseFlowSpecJson struct {
+	Success bool                       `json:"success"`
+	Values  []ResponseFlowSpecAnnounce `json:"values"`
+}
+
 type ResponseHostGroupConfigurationJson struct {
 	Success   bool             `json:"success"`
 	ErrorText string           `json:"error_text"`
@@ -669,4 +680,86 @@ func Create_host_group_with_all_options(fastnetmon_client *FastNetMonClient, new
 	}
 
 	return nil
+}
+
+// Adds Flow Spec announce
+func (client *FastNetMonClient) AddFlowSpecRule(flow_spec_rule FlowSpecRule) (bool, error) {
+	request_options := client.Ro
+
+	request_options.JSON = flow_spec_rule
+
+	resp, err := grequests.Put(client.Prefix+"/flowspec", client.Ro)
+
+	if err != nil {
+		return false, fmt.Errorf("Cannot connect to API: %w", err)
+	}
+
+	if !resp.Ok {
+		if resp.StatusCode == 401 {
+			return false, errors.New("Auth denied")
+		} else {
+			return false, fmt.Errorf("Did not return OK: %d", resp.StatusCode)
+		}
+	}
+
+	response := ErrorJson{}
+	err = resp.JSON(&response)
+
+	if err != nil {
+		return false, err
+	}
+
+	return response.Success, nil
+}
+
+// Returns all active flow spec announces
+func (client *FastNetMonClient) GetFlowSpecRules() ([]ResponseFlowSpecAnnounce, error) {
+	resp, err := grequests.Get(client.Prefix+"/flowspec", client.Ro)
+
+	if err != nil {
+		return nil, fmt.Errorf("Cannot connect to API: %w", err)
+	}
+
+	if !resp.Ok {
+		if resp.StatusCode == 401 {
+			return nil, errors.New("Auth denied")
+		} else {
+			return nil, fmt.Errorf("Did not return OK: %d", resp.StatusCode)
+		}
+	}
+
+	flow_spec_response := ResponseFlowSpecJson{}
+	err = resp.JSON(&flow_spec_response)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return flow_spec_response.Values, nil
+}
+
+// Removes Flow Spec entry using UUID
+func (client *FastNetMonClient) RemoveFlowSpecRule(mitigation_uuid string) (bool, error) {
+	resp, err := grequests.Delete(client.Prefix+"/flowspec/"+mitigation_uuid, client.Ro)
+
+	if err != nil {
+		return false, fmt.Errorf("Cannot connect to API: %w", err)
+	}
+
+	if !resp.Ok {
+		if resp.StatusCode == 401 {
+			return false, errors.New("Auth denied")
+		} else {
+			return false, fmt.Errorf("Did not return OK: %d", resp.StatusCode)
+		}
+	}
+
+	response := ErrorJson{}
+	err = resp.JSON(&response)
+
+	if err != nil {
+		return false, err
+	}
+
+	return response.Success, nil
 }
