@@ -114,9 +114,6 @@ type CallbackAttackDetails struct {
 	// low, middle, high, unknown
 	AttackSeverity string `json:"attack_severity"`
 
-	// Arbitrary string
-	AttackType string `json:"attack_type"`
-
 	// Hostgroup name, only for per host callbacks
 	HostGroup string `json:"host_group"`
 
@@ -140,12 +137,6 @@ type CallbackAttackDetails struct {
 
 	AttackDetectionThreshold          string `json:"attack_detection_threshold"`
 	AttackDetectionThresholdDirection string `json:"attack_detection_threshold_direction"`
-
-	// Incoming, outgoing or unknown. Deprecated field, please use AttackDetectionThresholdDirection instead
-	AttackDirection string `json:"attack_direction"`
-
-	// tcp, udp, icmp, unknown
-	AttackProtocol string `json:"attack_protocol"`
 
 	// automatic, manual, other
 	AttackDetectionSource string `json:"attack_detection_source"`
