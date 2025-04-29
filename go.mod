@@ -6,5 +6,5 @@ require github.com/levigross/grequests v0.0.0-20190908174114-253788527a1a
 
 require (
 	github.com/google/go-querystring v1.0.0 // indirect
-	golang.org/x/net v0.33.0 // indirect
+	golang.org/x/net v0.38.0 // indirect
 )
