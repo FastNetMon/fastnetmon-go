@@ -1,10 +1,12 @@
 module github.com/fastnetmon/fastnetmon-go
 
-go 1.17
+go 1.23.0
 
-require github.com/levigross/grequests v0.0.0-20190908174114-253788527a1a
+toolchain go1.24.4
+
+require github.com/levigross/grequests v0.0.0-20250606031859-3f3c12e4e704
 
 require (
-	github.com/google/go-querystring v1.0.0 // indirect
-	golang.org/x/net v0.38.0 // indirect
+	github.com/google/go-querystring v1.1.0 // indirect
+	golang.org/x/net v0.41.0 // indirect
 )

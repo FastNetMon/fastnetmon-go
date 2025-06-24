@@ -311,7 +311,7 @@ func (client *FastNetMonClient) SetBoolOptionHostGroup(hostgroup_name string, op
 		value_string = "enable"
 	}
 
-	resp, err := grequests.Put(client.Prefix+"/hostgroup/"+hostgroup_name+"/"+option_name+"/"+value_string, client.Ro)
+	resp, err := grequests.Put(client.Prefix+"/hostgroup/"+hostgroup_name+"/"+option_name+"/"+value_string, grequests.FromRequestOptions(client.Ro))
 
 	if err != nil {
 		return false, fmt.Errorf("Cannot connect to API: %w", err)
@@ -340,7 +340,7 @@ func (client *FastNetMonClient) SetStringListOptionHostGroup(hostgroup_name stri
 	// Replace prohibited symbols
 	value = strings.Replace(value, "/", "%2f", -1)
 
-	resp, err := grequests.Put(client.Prefix+"/hostgroup/"+hostgroup_name+"/"+option_name+"/"+value, client.Ro)
+	resp, err := grequests.Put(client.Prefix+"/hostgroup/"+hostgroup_name+"/"+option_name+"/"+value, grequests.FromRequestOptions(client.Ro))
 
 	if err != nil {
 		return false, fmt.Errorf("Cannot connect to API: %w", err)
@@ -366,7 +366,7 @@ func (client *FastNetMonClient) SetStringListOptionHostGroup(hostgroup_name stri
 
 // Set specified int option for host group
 func (client *FastNetMonClient) SetUnsignedIntegerOptionHostGroup(hostgroup_name string, option_name string, value uint) (bool, error) {
-	resp, err := grequests.Put(client.Prefix+"/hostgroup/"+hostgroup_name+"/"+option_name+"/"+fmt.Sprintf("%d", value), client.Ro)
+	resp, err := grequests.Put(client.Prefix+"/hostgroup/"+hostgroup_name+"/"+option_name+"/"+fmt.Sprintf("%d", value), grequests.FromRequestOptions(client.Ro))
 
 	if err != nil {
 		return false, fmt.Errorf("Cannot connect to API: %w", err)
@@ -392,7 +392,7 @@ func (client *FastNetMonClient) SetUnsignedIntegerOptionHostGroup(hostgroup_name
 
 // Creates host groups with specified name
 func (client *FastNetMonClient) CreateHostGroup(name string) (bool, error) {
-	resp, err := grequests.Put(client.Prefix+"/hostgroup/"+name, client.Ro)
+	resp, err := grequests.Put(client.Prefix+"/hostgroup/"+name, grequests.FromRequestOptions(client.Ro))
 
 	if err != nil {
 		return false, fmt.Errorf("Cannot connect to API: %w", err)
@@ -418,7 +418,7 @@ func (client *FastNetMonClient) CreateHostGroup(name string) (bool, error) {
 
 // Removes host group by name
 func (client *FastNetMonClient) RemoveHostGroup(name string) (bool, error) {
-	resp, err := grequests.Delete(client.Prefix+"/hostgroup/"+name, client.Ro)
+	resp, err := grequests.Delete(client.Prefix+"/hostgroup/"+name, grequests.FromRequestOptions(client.Ro))
 
 	if err != nil {
 		return false, fmt.Errorf("Cannot connect to API: %w", err)
@@ -444,7 +444,7 @@ func (client *FastNetMonClient) RemoveHostGroup(name string) (bool, error) {
 
 // Blocks some specified blackhole host
 func (client *FastNetMonClient) BlackholeRemote(ip_address string) (bool, error) {
-	resp, err := grequests.Put(client.Prefix+"/remote_blackhole/"+ip_address, client.Ro)
+	resp, err := grequests.Put(client.Prefix+"/remote_blackhole/"+ip_address, grequests.FromRequestOptions(client.Ro))
 
 	if err != nil {
 		return false, fmt.Errorf("Cannot connect to API: %w", err)
@@ -470,7 +470,7 @@ func (client *FastNetMonClient) BlackholeRemote(ip_address string) (bool, error)
 
 // Returns all IPs blocked using remote blackhole
 func (client *FastNetMonClient) GetRemoteBlackhole() ([]BlackholeAnnounces, error) {
-	resp, err := grequests.Get(client.Prefix+"/remote_blackhole", client.Ro)
+	resp, err := grequests.Get(client.Prefix+"/remote_blackhole", grequests.FromRequestOptions(client.Ro))
 
 	if err != nil {
 		return nil, fmt.Errorf("Cannot connect to API: %w", err)
@@ -496,7 +496,7 @@ func (client *FastNetMonClient) GetRemoteBlackhole() ([]BlackholeAnnounces, erro
 
 // Removes remote blackhole entry using UUID
 func (client *FastNetMonClient) RemoveRemoteBlackhole(mitigation_uuid string) (bool, error) {
-	resp, err := grequests.Delete(client.Prefix+"/remote_blackhole/"+mitigation_uuid, client.Ro)
+	resp, err := grequests.Delete(client.Prefix+"/remote_blackhole/"+mitigation_uuid, grequests.FromRequestOptions(client.Ro))
 
 	if err != nil {
 		return false, fmt.Errorf("Cannot connect to API: %w", err)
@@ -522,7 +522,7 @@ func (client *FastNetMonClient) RemoveRemoteBlackhole(mitigation_uuid string) (b
 
 // Returns all networks known by FastNetMon
 func (client *FastNetMonClient) GetNetworks() ([]string, error) {
-	resp, err := grequests.Get(client.Prefix+"/main/networks_list", client.Ro)
+	resp, err := grequests.Get(client.Prefix+"/main/networks_list", grequests.FromRequestOptions(client.Ro))
 
 	if err != nil {
 		return nil, fmt.Errorf("Cannot connect to API: %w", err)
@@ -548,7 +548,7 @@ func (client *FastNetMonClient) GetNetworks() ([]string, error) {
 
 // Retrieves all host groups
 func (client *FastNetMonClient) GetAllHostgroups() ([]Ban_settings_t, error) {
-	resp, err := grequests.Get(client.Prefix+"/hostgroup", client.Ro)
+	resp, err := grequests.Get(client.Prefix+"/hostgroup", grequests.FromRequestOptions(client.Ro))
 
 	if err != nil {
 		return nil, fmt.Errorf("Cannot connect to API: %w", err)
@@ -679,7 +679,7 @@ func (client *FastNetMonClient) AddFlowSpecRule(flow_spec_rule FlowSpecRule) (bo
 
 	request_options.JSON = flow_spec_rule
 
-	resp, err := grequests.Put(client.Prefix+"/flowspec", client.Ro)
+	resp, err := grequests.Put(client.Prefix+"/flowspec", grequests.FromRequestOptions(client.Ro))
 
 	if err != nil {
 		return false, fmt.Errorf("Cannot connect to API: %w", err)
@@ -705,7 +705,7 @@ func (client *FastNetMonClient) AddFlowSpecRule(flow_spec_rule FlowSpecRule) (bo
 
 // Returns all active flow spec announces
 func (client *FastNetMonClient) GetFlowSpecRules() ([]ResponseFlowSpecAnnounce, error) {
-	resp, err := grequests.Get(client.Prefix+"/flowspec", client.Ro)
+	resp, err := grequests.Get(client.Prefix+"/flowspec", grequests.FromRequestOptions(client.Ro))
 
 	if err != nil {
 		return nil, fmt.Errorf("Cannot connect to API: %w", err)
@@ -731,7 +731,7 @@ func (client *FastNetMonClient) GetFlowSpecRules() ([]ResponseFlowSpecAnnounce, 
 
 // Removes Flow Spec entry using UUID
 func (client *FastNetMonClient) RemoveFlowSpecRule(mitigation_uuid string) (bool, error) {
-	resp, err := grequests.Delete(client.Prefix+"/flowspec/"+mitigation_uuid, client.Ro)
+	resp, err := grequests.Delete(client.Prefix+"/flowspec/"+mitigation_uuid, grequests.FromRequestOptions(client.Ro))
 
 	if err != nil {
 		return false, fmt.Errorf("Cannot connect to API: %w", err)
