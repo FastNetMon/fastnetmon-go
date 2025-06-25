@@ -199,7 +199,7 @@ type CallbackPacketDumpEntry struct {
 	SampleRatio   uint64 `json:"sample_ratio"`
 
 	// tcp, udp, icmp and unknown
-	Protocol string `json"protocol"`
+    Protocol string `json:"protocol"`
 
 	// Address of device which sent this flow / packet
 	AgentAddress string `json:"agent_address"`
