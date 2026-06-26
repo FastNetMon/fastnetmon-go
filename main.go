@@ -549,6 +549,86 @@ func (client *FastNetMonClient) GetNetworks() ([]string, error) {
 	return networks_response.Values, nil
 }
 
+func (client *FastNetMonClient) AddNetwork(cidr string) error {
+	encoded := strings.Replace(cidr, "/", "%2f", 1)
+	resp, err := grequests.Put(client.Prefix+"/main/networks_list/"+encoded, grequests.FromRequestOptions(client.Ro))
+
+	if err != nil {
+		return fmt.Errorf("Cannot connect to API: %w", err)
+	}
+
+	if !resp.Ok {
+		if resp.StatusCode == 401 {
+			return errors.New("Auth denied")
+		}
+		return fmt.Errorf("Did not return OK: %d", resp.StatusCode)
+	}
+
+	response := ErrorJson{}
+	if err := resp.JSON(&response); err != nil {
+		return err
+	}
+
+	if !response.Success {
+		return fmt.Errorf("API error: %s", response.ErrorText)
+	}
+
+	return nil
+}
+
+func (client *FastNetMonClient) RemoveNetwork(cidr string) error {
+	encoded := strings.Replace(cidr, "/", "%2f", 1)
+	resp, err := grequests.Delete(client.Prefix+"/main/networks_list/"+encoded, grequests.FromRequestOptions(client.Ro))
+
+	if err != nil {
+		return fmt.Errorf("Cannot connect to API: %w", err)
+	}
+
+	if !resp.Ok {
+		if resp.StatusCode == 401 {
+			return errors.New("Auth denied")
+		}
+		return fmt.Errorf("Did not return OK: %d", resp.StatusCode)
+	}
+
+	response := ErrorJson{}
+	if err := resp.JSON(&response); err != nil {
+		return err
+	}
+
+	if !response.Success {
+		return fmt.Errorf("API error: %s", response.ErrorText)
+	}
+
+	return nil
+}
+
+func (client *FastNetMonClient) Commit() error {
+	resp, err := grequests.Put(client.Prefix+"/commit", grequests.FromRequestOptions(client.Ro))
+
+	if err != nil {
+		return fmt.Errorf("Cannot connect to API: %w", err)
+	}
+
+	if !resp.Ok {
+		if resp.StatusCode == 401 {
+			return errors.New("Auth denied")
+		}
+		return fmt.Errorf("Did not return OK: %d", resp.StatusCode)
+	}
+
+	response := ErrorJson{}
+	if err := resp.JSON(&response); err != nil {
+		return err
+	}
+
+	if !response.Success {
+		return fmt.Errorf("API error: %s", response.ErrorText)
+	}
+
+	return nil
+}
+
 // Retrieves all host groups
 func (client *FastNetMonClient) GetAllHostgroups() ([]Ban_settings_t, error) {
 	resp, err := grequests.Get(client.Prefix+"/hostgroup", grequests.FromRequestOptions(client.Ro))
