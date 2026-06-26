@@ -255,6 +255,9 @@ type Ban_settings_t struct {
 	Description            string   `bson:"description" json:"description" fastnetmon_type:"string"`
 	Networks               []string `bson:"networks" json:"networks" fastnetmon_type:"cidr_networks_list"`
 	Enable_ban             bool     `bson:"enable_ban" json:"enable_ban" fastnetmon_type:"bool"`
+	Enable_ban_incoming    bool     `bson:"enable_ban_incoming" json:"enable_ban_incoming" fastnetmon_type:"bool"`
+	Enable_ban_outgoing    bool     `bson:"enable_ban_outgoing" json:"enable_ban_outgoing" fastnetmon_type:"bool"`
+	Calculation_method     string   `bson:"calculation_method" json:"calculation_method" fastnetmon_type:"string"`
 	Ban_for_pps            bool     `bson:"ban_for_pps" json:"ban_for_pps" fastnetmon_type:"bool"`
 	Ban_for_bandwidth      bool     `bson:"ban_for_bandwidth" json:"ban_for_bandwidth" fastnetmon_type:"bool"`
 	Ban_for_flows          bool     `bson:"ban_for_flows" json:"ban_for_flows" fastnetmon_type:"bool"`
