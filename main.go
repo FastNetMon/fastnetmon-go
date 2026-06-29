@@ -306,6 +306,19 @@ func NewClient(host string, port uint32, user, password string) (*FastNetMonClie
 	return nil, errors.New("Please provide all fields")
 }
 
+func apiStatusError(resp *grequests.Response) error {
+	if resp.StatusCode == 401 {
+		return errors.New("Auth denied")
+	}
+
+	responseBody := strings.TrimSpace(resp.String())
+	if responseBody != "" {
+		return fmt.Errorf("Did not return OK: %d, response: %s", resp.StatusCode, responseBody)
+	}
+
+	return fmt.Errorf("Did not return OK: %d", resp.StatusCode)
+}
+
 // Set specified bool option for host group
 func (client *FastNetMonClient) SetBoolOptionHostGroup(hostgroup_name string, option_name string, value bool) (bool, error) {
 	value_string := "disable"
@@ -321,11 +334,7 @@ func (client *FastNetMonClient) SetBoolOptionHostGroup(hostgroup_name string, op
 	}
 
 	if !resp.Ok {
-		if resp.StatusCode == 401 {
-			return false, errors.New("Auth denied")
-		} else {
-			return false, fmt.Errorf("Did not return OK: %d", resp.StatusCode)
-		}
+		return false, apiStatusError(resp)
 	}
 
 	response := ErrorJson{}
@@ -350,11 +359,7 @@ func (client *FastNetMonClient) SetStringListOptionHostGroup(hostgroup_name stri
 	}
 
 	if !resp.Ok {
-		if resp.StatusCode == 401 {
-			return false, errors.New("Auth denied")
-		} else {
-			return false, fmt.Errorf("Did not return OK: %d", resp.StatusCode)
-		}
+		return false, apiStatusError(resp)
 	}
 
 	response := ErrorJson{}
@@ -376,11 +381,7 @@ func (client *FastNetMonClient) SetUnsignedIntegerOptionHostGroup(hostgroup_name
 	}
 
 	if !resp.Ok {
-		if resp.StatusCode == 401 {
-			return false, errors.New("Auth denied")
-		} else {
-			return false, fmt.Errorf("Did not return OK: %d", resp.StatusCode)
-		}
+		return false, apiStatusError(resp)
 	}
 
 	response := ErrorJson{}
@@ -402,11 +403,7 @@ func (client *FastNetMonClient) CreateHostGroup(name string) (bool, error) {
 	}
 
 	if !resp.Ok {
-		if resp.StatusCode == 401 {
-			return false, errors.New("Auth denied")
-		} else {
-			return false, fmt.Errorf("Did not return OK: %d", resp.StatusCode)
-		}
+		return false, apiStatusError(resp)
 	}
 
 	response := ErrorJson{}
@@ -428,11 +425,7 @@ func (client *FastNetMonClient) RemoveHostGroup(name string) (bool, error) {
 	}
 
 	if !resp.Ok {
-		if resp.StatusCode == 401 {
-			return false, errors.New("Auth denied")
-		} else {
-			return false, fmt.Errorf("Did not return OK: %d", resp.StatusCode)
-		}
+		return false, apiStatusError(resp)
 	}
 
 	response := ErrorJson{}
@@ -454,11 +447,7 @@ func (client *FastNetMonClient) BlackholeRemote(ip_address string) (bool, error)
 	}
 
 	if !resp.Ok {
-		if resp.StatusCode == 401 {
-			return false, errors.New("Auth denied")
-		} else {
-			return false, fmt.Errorf("Did not return OK: %d", resp.StatusCode)
-		}
+		return false, apiStatusError(resp)
 	}
 
 	response := ErrorJson{}
@@ -480,11 +469,7 @@ func (client *FastNetMonClient) GetRemoteBlackhole() ([]BlackholeAnnounces, erro
 	}
 
 	if !resp.Ok {
-		if resp.StatusCode == 401 {
-			return nil, errors.New("Auth denied")
-		} else {
-			return nil, fmt.Errorf("Did not return OK: %d", resp.StatusCode)
-		}
+		return nil, apiStatusError(resp)
 	}
 
 	ban_list_response := ResponseRemoteBlackholeListJson{}
@@ -506,11 +491,7 @@ func (client *FastNetMonClient) RemoveRemoteBlackhole(mitigation_uuid string) (b
 	}
 
 	if !resp.Ok {
-		if resp.StatusCode == 401 {
-			return false, errors.New("Auth denied")
-		} else {
-			return false, fmt.Errorf("Did not return OK: %d", resp.StatusCode)
-		}
+		return false, apiStatusError(resp)
 	}
 
 	response := ErrorJson{}
@@ -532,11 +513,7 @@ func (client *FastNetMonClient) GetNetworks() ([]string, error) {
 	}
 
 	if !resp.Ok {
-		if resp.StatusCode == 401 {
-			return nil, errors.New("Auth denied")
-		} else {
-			return nil, fmt.Errorf("Did not return OK: %d", resp.StatusCode)
-		}
+		return nil, apiStatusError(resp)
 	}
 
 	networks_response := ResponseArrayJson{}
@@ -558,10 +535,7 @@ func (client *FastNetMonClient) AddNetwork(cidr string) error {
 	}
 
 	if !resp.Ok {
-		if resp.StatusCode == 401 {
-			return errors.New("Auth denied")
-		}
-		return fmt.Errorf("Did not return OK: %d", resp.StatusCode)
+		return apiStatusError(resp)
 	}
 
 	response := ErrorJson{}
@@ -585,10 +559,7 @@ func (client *FastNetMonClient) RemoveNetwork(cidr string) error {
 	}
 
 	if !resp.Ok {
-		if resp.StatusCode == 401 {
-			return errors.New("Auth denied")
-		}
-		return fmt.Errorf("Did not return OK: %d", resp.StatusCode)
+		return apiStatusError(resp)
 	}
 
 	response := ErrorJson{}
@@ -611,10 +582,7 @@ func (client *FastNetMonClient) Commit() error {
 	}
 
 	if !resp.Ok {
-		if resp.StatusCode == 401 {
-			return errors.New("Auth denied")
-		}
-		return fmt.Errorf("Did not return OK: %d", resp.StatusCode)
+		return apiStatusError(resp)
 	}
 
 	response := ErrorJson{}
@@ -638,11 +606,7 @@ func (client *FastNetMonClient) GetAllHostgroups() ([]Ban_settings_t, error) {
 	}
 
 	if !resp.Ok {
-		if resp.StatusCode == 401 {
-			return nil, errors.New("Auth denied")
-		} else {
-			return nil, fmt.Errorf("Did not return OK: %d", resp.StatusCode)
-		}
+		return nil, apiStatusError(resp)
 	}
 
 	hostgroups_response := ResponseHostGroupConfigurationJson{}
@@ -769,11 +733,7 @@ func (client *FastNetMonClient) AddFlowSpecRule(flow_spec_rule FlowSpecRule) (bo
 	}
 
 	if !resp.Ok {
-		if resp.StatusCode == 401 {
-			return false, errors.New("Auth denied")
-		} else {
-			return false, fmt.Errorf("Did not return OK: %d", resp.StatusCode)
-		}
+		return false, apiStatusError(resp)
 	}
 
 	response := ErrorJson{}
@@ -795,11 +755,7 @@ func (client *FastNetMonClient) GetFlowSpecRules() ([]ResponseFlowSpecAnnounce, 
 	}
 
 	if !resp.Ok {
-		if resp.StatusCode == 401 {
-			return nil, errors.New("Auth denied")
-		} else {
-			return nil, fmt.Errorf("Did not return OK: %d", resp.StatusCode)
-		}
+		return nil, apiStatusError(resp)
 	}
 
 	flow_spec_response := ResponseFlowSpecJson{}
@@ -821,11 +777,7 @@ func (client *FastNetMonClient) RemoveFlowSpecRule(mitigation_uuid string) (bool
 	}
 
 	if !resp.Ok {
-		if resp.StatusCode == 401 {
-			return false, errors.New("Auth denied")
-		} else {
-			return false, fmt.Errorf("Did not return OK: %d", resp.StatusCode)
-		}
+		return false, apiStatusError(resp)
 	}
 
 	response := ErrorJson{}
