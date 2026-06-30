@@ -37,6 +37,8 @@ type FastNetMonClient struct {
 }
 
 // Creates new client, just checks input, does not execute connection attemps
+//
+// Depricated: new one NewClientV2 with support V2 API
 func NewClient(host string, port uint32, user, password string) (*FastNetMonClient, error) {
 	client := FastNetMonClient{}
 
@@ -55,6 +57,7 @@ func NewClient(host string, port uint32, user, password string) (*FastNetMonClie
 	return nil, errors.New("Please provide all fields")
 }
 
+// Creates new client, just checks input, does not execute connection attemps
 func NewClientV2(host string, port uint32, user, password string, EnabledV2 bool, TLS bool, InsecureSkipVerify bool) (*FastNetMonClient, error) {
 	client := FastNetMonClient{}
 
