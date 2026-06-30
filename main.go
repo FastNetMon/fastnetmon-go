@@ -209,3 +209,45 @@ func (client *FastNetMonClient) Commit() error {
 
 	return nil
 }
+
+func (client *FastNetMonClient) GetLicense() (info LicenseInfo, err error) {
+	resp, err := grequests.Get(client.Prefix+"/license", grequests.FromRequestOptions(client.Ro))
+
+	if err != nil {
+		return info, fmt.Errorf("Cannot connect to API: %w", err)
+	}
+
+	if !resp.Ok {
+		return info, apiStatusError(resp)
+	}
+
+	response := ResponseLicense{}
+	err = decodeResponseJSON(resp, &response)
+	info = response.Object
+	if err != nil {
+		return info, err
+	}
+	return info, nil
+}
+
+func (client *FastNetMonClient) GetVersion() (string, error) {
+	resp, err := grequests.Get(client.Prefix+"/fastnetmon_version", grequests.FromRequestOptions(client.Ro))
+
+	if err != nil {
+		return "", fmt.Errorf("Cannot connect to API: %w", err)
+	}
+
+	if !resp.Ok {
+		return "", apiStatusError(resp)
+	}
+
+	response := ResponseJson{}
+	err = decodeResponseJSON(resp, &response)
+	if err != nil {
+		return "", err
+	}
+	if !response.Success {
+		return "", fmt.Errorf("API error: %s", response.ErrorText)
+	}
+	return response.Value, nil
+}

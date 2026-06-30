@@ -251,3 +251,22 @@ type Ban_settings_t struct {
 	Threshold_udp_pps      uint     `bson:"threshold_udp_pps" json:"threshold_udp_pps" fastnetmon_type:"positive_integer_without_zero"`
 	Threshold_icmp_pps     uint     `bson:"threshold_icmp_pps" json:"threshold_icmp_pps" fastnetmon_type:"positive_integer_without_zero"`
 }
+
+type ResponseLicense struct {
+	Success bool        `json:"success"`
+	Object  LicenseInfo `json:"object"`
+}
+type LicenseInfo struct {
+	AddressIPv4           string `json:"address_ipv4"`
+	AddressIPv6           string `json:"address_ipv6"`
+	TotalMemorySize       int    `json:"total_memory_size"`
+	LogicalCPUNumber      int    `json:"logical_cpu_number"`
+	CPUModel              string `json:"cpu_model"`
+	ExpirationDate        string `json:"expiration_date"`
+	LicensedBandwidth     int    `json:"licensed_bandwidth"`
+	IssuerType            string `json:"issuer_type"`
+	BusinessType          string `json:"business_type"`
+	LicensedBandwidthUnit string `json:"licensed_bandwidth_unit"`
+	Panel                 bool   `json:"panel"`
+	PanelNumberOfUsers    int    `json:"panel_number_of_users"`
+}
