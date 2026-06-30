@@ -78,6 +78,10 @@ func NewClientV2(host string, port uint32, user, password string, EnabledV2 bool
 	}
 
 	client.Prefix = fmt.Sprintf("%s://%s:%d", proto, client.Host, client.Port)
+	// if IPv6 - need []
+	if strings.Contains(host, ":") {
+		client.Prefix = fmt.Sprintf("%s://[%s]:%d", proto, client.Host, client.Port)
+	}
 	if EnabledV2 {
 		client.Prefix, _ = url.JoinPath(client.Prefix, "/api/v2")
 	}
